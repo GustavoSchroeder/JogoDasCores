@@ -27,8 +27,6 @@ void display(void)
 {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glPushMatrix();
-	//glRotatef(spin, 0.0, 0.0, 1.0);
-	//gluOrtho2D(-25.0, -25.0, 25.0, 25.0);
 	glPopMatrix();
 	glutSwapBuffers();
 
