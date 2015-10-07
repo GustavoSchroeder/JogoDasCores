@@ -1,7 +1,7 @@
 using namespace std;
 
 #include "stdafx.h"
-#include <windows.h>		// Must have for Windows platform builds
+#include <windows.h>		
 #include <GL/gl.h>
 #include <GL/glu.h>
 #include <freeglut_std.h>
@@ -15,11 +15,9 @@ using namespace std;
 const int X = 32;
 const int Y = 32;
 retangulo ret[X][Y];
-int rPrimeira;
-int gPrimeira;
-int bPrimeira;
+int red, green, blue;  
 int percentual = 8;
-int pontos = 0;
+int pontuacao = 0;
 int tentativas = 0;
 int maxTentativas = 32;
 
@@ -34,8 +32,8 @@ void display(void)
 	glPopMatrix();
 	glutSwapBuffers();
 
-	int largura = 2;
-	int altura = 2;
+	int width = 2;
+	int height = 2;
 	for (int i = 0; i < X; i++){
 		for (int j = 0; j < Y; j++){
 			float r = ret[i][j].getRed() / 256;
@@ -50,22 +48,22 @@ void display(void)
 			}
 			
 			glBegin(GL_POLYGON);
-				glVertex2f(-34 + largura, 34 - altura);
-				glVertex2f(-32 + largura, 34 - altura);
-				glVertex2f(-32 + largura, 32 - altura);
-				glVertex2f(-34 + largura, 32 - altura);
+				glVertex2f(-34 + width, 34 - height);
+				glVertex2f(-32 + width, 34 - height);
+				glVertex2f(-32 + width, 32 - height);
+				glVertex2f(-34 + width, 32 - height);
 			glEnd();
 			glColor3f(0.0f, 0.0f, .0f);
 			glBegin(GL_LINE_LOOP);
-				glVertex2f(-34 + largura, 34 - altura);
-				glVertex2f(-32 + largura, 34 - altura);
-				glVertex2f(-32 + largura, 32 - altura);
-				glVertex2f(-34 + largura, 32 - altura);
+				glVertex2f(-34 + width, 34 - height);
+				glVertex2f(-32 + width, 34 - height);
+				glVertex2f(-32 + width, 32 - height);
+				glVertex2f(-34 + width, 32 - height);
 			glEnd();
-			largura += 2;
+			width += 2;
 			if (j == Y-1){
-				largura = 2;
-				altura += 2;
+				width = 2;
+				height += 2;
 			}
 		}
 	}
@@ -79,19 +77,19 @@ void verificaCores(int x, int y){
 	if (ret[iT][jT].isVisivel() == true) {
 		printf("Posicao do array: ret[%d][%d]\n", iT, jT);
 
-		rPrimeira = ret[iT][jT].getRed();
-		gPrimeira = ret[iT][jT].getGreen();
-		bPrimeira = ret[iT][jT].getBlue();
+		red = ret[iT][jT].getRed();
+		green = ret[iT][jT].getGreen();
+		blue = ret[iT][jT].getBlue();
 
 		for (int i = 0; i < X; i++){
 			for (int j = 0; j < Y; j++){
-				int rSegunda = ret[i][j].getRed();
-				int gSegunda = ret[i][j].getGreen();
-				int bSegunda = ret[i][j].getBlue();
+				int redS = ret[i][j].getRed();
+				int greenS = ret[i][j].getGreen();
+				int blueS = ret[i][j].getBlue();
 
-				double raiz = (rPrimeira - rSegunda) * (rPrimeira - rSegunda);
-				raiz += (gPrimeira - gSegunda) * (gPrimeira - gSegunda);
-				raiz += (bPrimeira - bSegunda) * (bPrimeira - bSegunda);
+				double raiz = (red - redS) * (red - redS);
+				raiz += (green - greenS) * (green - greenS);
+				raiz += (blue - blueS) * (blue - blueS);
 
 				raiz = sqrt(raiz);
 
@@ -99,14 +97,14 @@ void verificaCores(int x, int y){
 
 				if (raiz < distancia){
 					ret[i][j].setVisivel(false);
-					pontos += 1;
+					pontuacao += 1;
 				}
 			}
 		}
 		glutPostRedisplay();
 	}
 	else{
-		printf("Retangulo clicado nao esta visivel!");
+		printf("Errou!");
 		tentativas -= 1;
 	}
 }
@@ -116,14 +114,11 @@ void mouse(int button, int state, int x, int y){
 	if (button == 0 && state == 0 && tentativas < maxTentativas){
 		verificaCores(x, y);
 		tentativas += 1;
-		printf("Pontos: %d\n", pontos);
+		printf("pontuacao: %d\n", pontuacao);
 	}
 	
 }
 
-
-///////////////////////////////////////////////////////////
-// Setup the rendering state
 void init(void){
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 	glLoadIdentity();
@@ -141,20 +136,19 @@ void init(void){
 		}
 	}
 }
-///////////////////////////////////////////////////////////
-// Main program entry point
+
 int main(int argc, char* argv[]) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_SINGLE | GLUT_RGBA);
 	glutInitWindowSize(800, 600);
 	int id = glutCreateWindow("Jogo das Cores");
 
-	// definição de funções de call-back
+	// definiÃ§Ã£o de funÃ§Ãµes de call-back
 	glutDisplayFunc(display);
 	//glutReshapeFunc(ChangeSize);
 	glutMouseFunc(mouse);
 
-	// inicializações e definições constantes
+	// inicializaÃ§Ãµes e definiÃ§Ãµes constantes
 	init();
 
 	// inicio do pipe-line OpenGL
