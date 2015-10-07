@@ -1,6 +1,7 @@
 #pragma once
 #include "retangulo.h"
-//using namespace std;
+
+using namespace std;
 
 void retangulo::iniciaRetangulo(bool v, int r, int g, int b)
 {
