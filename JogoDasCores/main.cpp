@@ -1,16 +1,16 @@
-using namespace std;
-
-#include "stdafx.h"
-#include <windows.h>		
-#include <GL/gl.h>
-#include <GL/glu.h>
-#include <freeglut_std.h>
+#include <Windows.h>
+#include <GL\glew.h>
+#include <GL\GL.h>
+#include <GL\GLU.h>
+#include <GL\glut.h>
 #include <iostream>
 #include <math.h>
 #include <time.h>
 #include <cmath>
-
+#include "stdafx.h"
 #include "retangulo.h"
+
+using namespace std;
 
 const int X = 32;
 const int Y = 32;
@@ -19,9 +19,7 @@ int red, green, blue;
 int percentual = 8;
 int pontuacao = 0;
 int tentativas = 0;
-int maxTentativas = 32;
-
-
+int maxTentativas = 3;
 
 void display(void)
 {
@@ -70,14 +68,14 @@ void display(void)
 
 void verificaCores(int x, int y){
 
-	int iT = y / 18.75;
-	int jT = x / 25;
-	if (ret[iT][jT].isVisivel() == true) {
-		printf("Posicao do array: ret[%d][%d]\n", iT, jT);
+	int posi = y / 18.75;
+	int posj = x / 25;
+	if (ret[posi][posj].isVisivel() == true) {
+		printf("Posição Corrente: ret[%d][%d]\n", posi, posj);
 
-		red = ret[iT][jT].getRed();
-		green = ret[iT][jT].getGreen();
-		blue = ret[iT][jT].getBlue();
+		red = ret[posi][posj].getRed();
+		green = ret[posi][posj].getGreen();
+		blue = ret[posi][posj].getBlue();
 
 		for (int i = 0; i < X; i++){
 			for (int j = 0; j < Y; j++){
